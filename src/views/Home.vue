@@ -35,6 +35,7 @@ export default {
       axios.get("http://localhost:3000/stocks/" + searchParam).then((response) => {
         this.inquiredStock = response.data;
         console.log(this.inquiredStock, response.data);
+        this.searchStock = "";
       });
     },
   },
