@@ -1,6 +1,9 @@
 <template>
   <div class="home">
     <h1>{{ message }}</h1>
+    <div>
+      <apexchart width="500" type="bar" :options="chartOptions" :series="series"></apexchart>
+    </div>
     <input type="text" v-model="searchStock" />
     <button v-on:click="search">Search for Stock</button>
     <div v-if="inquiredStock.length === 0">
@@ -23,11 +26,27 @@ import axios from "axios";
 export default {
   data: function () {
     return {
+      chartOptions: {
+        chart: {
+          id: "vuechart-example",
+        },
+        xaxis: {
+          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
+        },
+      },
+      series: [
+        {
+          name: "series-1",
+          data: [30, 40, 35, 50, 49, 60, 70, 91],
+        },
+      ],
       message: "Welcome to Vue.js!",
       searchStock: "",
       inquiredStock: [1],
     };
   },
+  components: {},
+
   created: function () {},
   methods: {
     search: function () {
@@ -46,3 +65,5 @@ export default {
   },
 };
 </script>
+
+message: "Welcome to Vue.js!", searchStock: "", inquiredStock: [1], series: [],
