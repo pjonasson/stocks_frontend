@@ -90,5 +90,3 @@ export default {
   },
 };
 </script>
-
-message: "Welcome to Vue.js!", searchStock: "", inquiredStock: [1], series: [],
