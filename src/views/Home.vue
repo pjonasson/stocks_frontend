@@ -10,7 +10,7 @@
     </div>
     <div v-else-if="inquiredStock[0] != 1" v-for="stock in inquiredStock" v-bind:key="stock.id">
       <h2>Stock Name: {{ stock.name }}</h2>
-      <h2>Stock Symbol: {{ stock.symbol }}</h2>
+      <h2 v-on:click="getStockData(stock.symbol)">Stock Symbol: {{ stock.symbol }}</h2>
     </div>
   </div>
 </template>
@@ -37,6 +37,11 @@ export default {
         console.log(this.inquiredStock, response.data);
         this.searchStock = "";
       });
+    },
+    getStockData: function (stock) {
+      axios
+        .get("https://cloud.iexapis.com/stable/stock/" + stock + "/chart/30d?token=pk_b600aa212c854595ba1263155ea4c39a")
+        .then((response) => console.log(response.data));
     },
   },
 };
