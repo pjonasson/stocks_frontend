@@ -19,24 +19,29 @@
       </div>
     </nav>
     <h1>{{ message }}</h1>
-
-    <!-- <input type="text" v-model="searchStock" />
-    <button v-on:click="search">Search for Stock</button> -->
     <div v-if="inquiredStock.length === 0">
       <div>
         <h1>There are no results for this search. Please try again.</h1>
       </div>
     </div>
     <div v-else-if="inquiredStock[0] != 1" v-for="stock in inquiredStock" v-bind:key="stock.id">
-      <h2>Stock Name: {{ stock.name }}</h2>
-      <h2 v-on:click="getStockData(stock.symbol)">Stock Symbol: {{ stock.symbol }}</h2>
+      <!-- <h2>Stock Name: {{ stock.name }}</h2> -->
+      <!-- <h2 v-on:click="getStockData(stock.symbol)">Stock Symbol: {{ stock.symbol }}</h2> -->
       <div class="row">
         <div class="col-sm-6">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Special title treatment</h5>
-              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
+              <h5 class="card-title">{{ stock.name }}</h5>
+              <p class="card-text">{{ stock.symbol }}</p>
+              <a
+                class="btn btn-danger mt-auto"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                position="center"
+                v-on:click="loadData(stock)"
+              >
+                More Info
+              </a>
             </div>
           </div>
         </div>
@@ -53,6 +58,7 @@ import axios from "axios";
 export default {
   data: function () {
     return {
+      currentStock: {},
       chartOptions: {
         chart: {
           id: "vuechart-example",
@@ -113,6 +119,24 @@ export default {
       axios
         .get("https://cloud.iexapis.com/stable/stock/" + stock + "/chart/30d?token=pk_b600aa212c854595ba1263155ea4c39a")
         .then((response) => console.log(response.data));
+    },
+    loadData: function (stock) {
+      this.currentStock = stock;
+      var symbol = stock.symbol;
+      axios
+        .get(
+          "https://cloud.iexapis.com/stable/stock/" + symbol + "/chart/30d?token=pk_b600aa212c854595ba1263155ea4c39a"
+        )
+        .then((response) => {
+          this.currentStock = response.data;
+          console.log("Check for match", this.currentStock);
+          this.currentStock.forEach((day) => {
+            var x = (this.series[0].data.x = day.date);
+            var y = (this.series[0].data.y = [day.open, day.high, day.close, day.low]);
+            this.series[0].data.push({ x, y });
+          });
+        });
+      this.loaded = true;
     },
   },
 };
