@@ -35,7 +35,7 @@ export default {
 
   async created() {
     const stock = await axios.get(
-      "https://cloud.iexapis.com/stable/stock/FB/chart/30d?token=pk_b600aa212c854595ba1263155ea4c39a"
+      "https://cloud.iexapis.com/stable/stock/ALGM/chart/30d?token=pk_b600aa212c854595ba1263155ea4c39a"
     );
     this.stock = stock.data;
     console.log("Stock Info", stock.data);

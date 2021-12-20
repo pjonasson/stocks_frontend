@@ -1,11 +1,27 @@
 <template>
   <div class="home">
+    <nav class="navbar navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img
+            src="https://media.istockphoto.com/photos/red-arrow-moving-up-over-graph-paper-background-picture-id1157569047"
+            alt=""
+            width="50"
+            height="25"
+            class="d-inline-block align-text-top"
+          />
+          Stock Watcher
+        </a>
+        <form class="d-flex">
+          <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" v-model="searchStock" />
+          <button class="btn btn-outline-success" type="submit" v-on:click="search">Search</button>
+        </form>
+      </div>
+    </nav>
     <h1>{{ message }}</h1>
-    <div>
-      <apexchart width="1000" type="candlestick" :options="chartOptions" :series="series"></apexchart>
-    </div>
-    <input type="text" v-model="searchStock" />
-    <button v-on:click="search">Search for Stock</button>
+
+    <!-- <input type="text" v-model="searchStock" />
+    <button v-on:click="search">Search for Stock</button> -->
     <div v-if="inquiredStock.length === 0">
       <div>
         <h1>There are no results for this search. Please try again.</h1>
@@ -14,6 +30,17 @@
     <div v-else-if="inquiredStock[0] != 1" v-for="stock in inquiredStock" v-bind:key="stock.id">
       <h2>Stock Name: {{ stock.name }}</h2>
       <h2 v-on:click="getStockData(stock.symbol)">Stock Symbol: {{ stock.symbol }}</h2>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Special title treatment</h5>
+              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -75,7 +102,7 @@ export default {
   created: function () {},
   methods: {
     search: function () {
-      var searchParam = this.searchStock;
+      var searchParam = this.searchStock.toLowerCase();
       axios.get("http://localhost:3000/stocks/" + searchParam).then((response) => {
         this.inquiredStock = response.data;
         console.log(this.inquiredStock, response.data);
