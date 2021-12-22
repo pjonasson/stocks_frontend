@@ -38,7 +38,7 @@
                 data-bs-target="#exampleModal"
                 position="center"
                 v-on:click="logStock(stock)"
-                href="http://localhost:8080/about"
+                href="http://localhost:8080/stock_graph"
               >
                 More Info
               </a>
@@ -99,5 +99,3 @@ export default {
   },
 };
 </script>
-
-v-on:click="loadData(stock)"
