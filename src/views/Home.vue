@@ -45,22 +45,6 @@
             </div>
           </div>
         </div>
-        <div>
-          <dialog id="stock-details">
-            <form method="dialog">
-              <h1>{{ stock.name }}</h1>
-              <apexchart
-                v-if="loaded"
-                width="1000"
-                type="candlestick"
-                :options="chartOptions"
-                :series="series"
-              ></apexchart>
-
-              <button>Close</button>
-            </form>
-          </dialog>
-        </div>
       </div>
     </div>
   </div>
@@ -97,21 +81,6 @@ export default {
   },
   components: {},
 
-  // async created() {
-  //   const stock = await axios.get(
-  //     "https://cloud.iexapis.com/stable/stock/ALGM/chart/30d?token=pk_b600aa212c854595ba1263155ea4c39a"
-  //   );
-  //   this.stock = stock.data;
-  //   console.log("Stock Info", stock.data);
-  //   this.stock.forEach((day) => {
-  //     var x = (this.series[0].data.x = day.date);
-  //     var y = (this.series[0].data.y = [day.open, day.high, day.low, day.close]);
-  //     this.series[0].data.push({ x, y });
-  //   });
-  //   this.loaded = true;
-
-  // this.loadData();
-  // },
   methods: {
     search: function () {
       var searchParam = this.searchStock.toLowerCase();
@@ -120,35 +89,6 @@ export default {
         console.log("Search Results", this.inquiredStock);
         this.searchStock = "";
       });
-    },
-    getStockData: function (stock) {
-      axios
-        .get("https://cloud.iexapis.com/stable/stock/" + stock + "/chart/30d?token=pk_7320f68d3c484cf8b4eec04ead05c8cc")
-        .then((response) => console.log(response.data));
-    },
-
-    loadData: function (stock) {
-      this.currentStock = stock;
-      var symbol = stock.symbol;
-      axios
-        .get(
-          "https://cloud.iexapis.com/stable/stock/" + symbol + "/chart/30d?token=pk_7320f68d3c484cf8b4eec04ead05c8cc"
-        )
-        .then((response) => {
-          this.currentStock = response.data;
-
-          console.log("Current Stock Choice", this.currentStock);
-          this.currentStock.forEach((day) => {
-            var x = (this.series[0].data.x = day.date);
-            var y = (this.series[0].data.y = [day.open, day.high, day.low, day.close]);
-            this.series[0].data.push({ x, y });
-          });
-        });
-
-      this.loaded = true;
-      document.querySelector("#stock-details").showModal();
-
-      this.series[0].data = [];
     },
     logStock: function (stock) {
       this.currentStock = stock;
