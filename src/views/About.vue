@@ -47,27 +47,7 @@ export default {
       this.series[0].data.push({ x, y });
     });
     this.loaded = true;
-
-    // this.loadData();
   },
-  methods: {
-    loadData: function () {
-      axios
-        .get("https://cloud.iexapis.com/stable/stock/FB/chart/30d?token=pk_7320f68d3c484cf8b4eec04ead05c8cc")
-        .then((response) => {
-          this.stock = response.data;
-          console.log("Facebook", this.stock);
-          this.stock.forEach((day) => {
-            var x = (this.series[0].data.x = day.date);
-            var y = (this.series[0].data.y = [day.open, day.high, day.close, day.low]);
-            this.series[0].data.push({ x, y });
-          });
-        });
-      this.loaded = true;
-    },
-  },
+  methods: {},
 };
 </script>
-
-this.stock.forEach((day) => this.series[0].data.push({ x: day.date, y: [day.open, day.high, day.close, day.low] }) );
-console.log("Data for series", this.series[0].data);
