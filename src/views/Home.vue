@@ -37,7 +37,8 @@
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
                 position="center"
-                v-on:click="loadData(stock)"
+                v-on:click="logStock(stock)"
+                href="http://localhost:8080/about"
               >
                 More Info
               </a>
@@ -109,20 +110,20 @@ export default {
   //   });
   //   this.loaded = true;
 
-  //   // this.loadData();
+  // this.loadData();
   // },
   methods: {
     search: function () {
       var searchParam = this.searchStock.toLowerCase();
       axios.get("http://localhost:3000/stocks/" + searchParam).then((response) => {
         this.inquiredStock = response.data;
-        console.log(this.inquiredStock, response.data);
+        console.log("Search Results", this.inquiredStock);
         this.searchStock = "";
       });
     },
     getStockData: function (stock) {
       axios
-        .get("https://cloud.iexapis.com/stable/stock/" + stock + "/chart/30d?token=pk_b600aa212c854595ba1263155ea4c39a")
+        .get("https://cloud.iexapis.com/stable/stock/" + stock + "/chart/30d?token=pk_7320f68d3c484cf8b4eec04ead05c8cc")
         .then((response) => console.log(response.data));
     },
 
@@ -131,28 +132,32 @@ export default {
       var symbol = stock.symbol;
       axios
         .get(
-          "https://cloud.iexapis.com/stable/stock/" + symbol + "/chart/30d?token=pk_b600aa212c854595ba1263155ea4c39a"
+          "https://cloud.iexapis.com/stable/stock/" + symbol + "/chart/30d?token=pk_7320f68d3c484cf8b4eec04ead05c8cc"
         )
         .then((response) => {
           this.currentStock = response.data;
 
-          console.log("Check for match", this.currentStock);
+          console.log("Current Stock Choice", this.currentStock);
           this.currentStock.forEach((day) => {
             var x = (this.series[0].data.x = day.date);
             var y = (this.series[0].data.y = [day.open, day.high, day.low, day.close]);
             this.series[0].data.push({ x, y });
           });
         });
-      console.log(this.series[0].data);
 
       this.loaded = true;
       document.querySelector("#stock-details").showModal();
 
       this.series[0].data = [];
     },
-    test: function () {
-      console.log("test");
+    logStock: function (stock) {
+      this.currentStock = stock;
+      console.log("Logged Stock", this.currentStock);
+      localStorage.setItem("choice", stock.symbol);
+      console.log("Symbol", stock.symbol);
     },
   },
 };
 </script>
+
+v-on:click="loadData(stock)"
