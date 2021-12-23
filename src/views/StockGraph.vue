@@ -19,7 +19,17 @@
       <div class="row">
         <div class="column left">
           <iframe
+            v-if="stockOpens[0] < stockCloses[stockCloses.length - 1]"
             src="https://giphy.com/embed/AgHBbekqDik0g"
+            width="90%"
+            height="269"
+            frameBorder="0"
+            class="giphy-embed"
+            allowFullScreen
+          ></iframe>
+          <iframe
+            v-else-if="stockOpens[0] > stockCloses[stockCloses.length - 1]"
+            src="https://giphy.com/embed/S3n6idriKtiFbZyqve"
             width="90%"
             height="269"
             frameBorder="0"
@@ -29,6 +39,8 @@
           <h2>{{ symbol }}</h2>
           <p>30 Day High: ${{ stockHigh[0] }}</p>
           <p>30 Day Low: ${{ stockLow[0] }}</p>
+          <p>30 Day Average Open: ${{ stockAverageOpen[0] }}</p>
+          <p>30 Day Average Close: ${{ stockAverageClose[0] }}</p>
         </div>
         <div class="column right">
           <apexchart v-if="loaded" width="95%" type="candlestick" :options="chartOptions" :series="series"></apexchart>
@@ -36,7 +48,7 @@
       </div>
     </div>
     <div onclick="location.href='http://localhost:8080';" style="cursor: pointer" id="arrowAnim">
-      <h1 style="text-align-center">Go back</h1>
+      <h1 style="color: red">Go back</h1>
 
       <div class="arrowSliding">
         <div class="arrow"></div>
@@ -161,6 +173,10 @@ export default {
     return {
       stockHigh: [],
       stockLow: [],
+      stockCloses: [],
+      stockAverageClose: [],
+      stockOpens: [],
+      stockAverageOpen: [],
       symbol: localStorage.getItem("choice"),
       stockName: localStorage.getItem("name"),
 
@@ -203,6 +219,9 @@ export default {
       var stockHigh = this.stock[0].high;
       var stockLow = this.stock[0].low;
       this.stock.forEach((day) => {
+        this.stockCloses.push(day.close);
+        this.stockOpens.push(day.open);
+
         if (day.high > stockHigh) {
           stockHigh = day.high;
         }
@@ -213,6 +232,16 @@ export default {
       console.log("Stock test", stockHigh, stockLow);
       this.stockHigh.push(stockHigh);
       this.stockLow.push(stockLow);
+      var sumClose = 0;
+      this.stockCloses.forEach((day) => {
+        sumClose += day;
+      });
+      this.stockAverageClose.push((sumClose / this.stockCloses.length).toFixed(2));
+      var sumOpen = 0;
+      this.stockOpens.forEach((day) => {
+        sumOpen += day;
+      });
+      this.stockAverageOpen.push((sumOpen / this.stockOpens.length).toFixed(2));
     },
   },
 };
