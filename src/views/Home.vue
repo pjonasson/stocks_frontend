@@ -18,22 +18,29 @@
         </div>
       </div>
     </nav>
-
-    <h1>{{ message }}</h1>
-    <div v-if="inquiredStock.length === 0">
+    <div class="body">
       <div>
-        <h1>There are no results for this search. Please try again.</h1>
+        <h1 style="font-family: 'Copperplate'">30 Day Nasdaq Stock Watcher</h1>
       </div>
-    </div>
-    <div v-else-if="inquiredStock[0] != 1" v-for="stock in inquiredStock" v-bind:key="stock.id">
-      <div class="row">
-        <div class="col-sm-6">
-          <div class="card">
-            <div class="card-body">
+      <img
+        src="https://media.istockphoto.com/photos/financial-graph-and-technology-element-on-mobile-phone-3d-rendering-picture-id1283432364?b=1&k=20&m=1283432364&s=170667a&w=0&h=fOrWHOUqwbuoK9laIO6CnaTs8C3FAZcT_igWZ80Eksk="
+        alt=""
+        width="90%"
+        height="700"
+      />
+      <div v-if="inquiredStock.length === 0">
+        <div>
+          <h1>There are no results for this search. Please try again.</h1>
+        </div>
+      </div>
+      <div class="row" v-else-if="inquiredStock[0] != 1">
+        <div class="col-md-3 col-sm-2 m-2" v-for="stock in inquiredStock" v-bind:key="stock.id">
+          <div class="card" style="height: 100%">
+            <div class="card-body d-flex flex-column">
               <h5 class="card-title">{{ stock.name }}</h5>
               <p class="card-text">{{ stock.symbol }}</p>
               <a
-                class="btn btn-danger mt-auto"
+                class="btn btn-success mt-auto"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
                 position="center"
@@ -50,7 +57,18 @@
   </div>
 </template>
 
-<style></style>
+<style>
+.body {
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 15px;
+  text-align: center;
+}
+.row {
+  justify-content: center;
+  padding-top: 40px;
+}
+</style>
 
 <script>
 import axios from "axios";
@@ -74,7 +92,6 @@ export default {
           data: [],
         },
       ],
-      message: "Welcome to Vue.js!",
       searchStock: "",
       inquiredStock: [1],
     };
@@ -94,6 +111,8 @@ export default {
       this.currentStock = stock;
       console.log("Logged Stock", this.currentStock);
       localStorage.setItem("choice", stock.symbol);
+      localStorage.setItem("name", stock.name);
+
       console.log("Symbol", stock.symbol);
     },
   },
