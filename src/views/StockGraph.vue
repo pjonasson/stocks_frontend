@@ -36,7 +36,7 @@
             class="giphy-embed"
             allowFullScreen
           ></iframe>
-          <h2>{{ symbol }}</h2>
+          <h2 style="text-decoration: underline">{{ symbol }}</h2>
           <p>30 Day High: ${{ stockHigh[0] }}</p>
           <p>30 Day Low: ${{ stockLow[0] }}</p>
           <p>30 Day Average Open: ${{ stockAverageOpen[0] }}</p>
@@ -47,8 +47,8 @@
         </div>
       </div>
     </div>
-    <div onclick="location.href='http://localhost:8080';" style="cursor: pointer" id="arrowAnim">
-      <h1 style="color: red">Go back</h1>
+    <div onclick="location.href='https://jolly-pasteur-0b7968.netlify.app';" style="cursor: pointer" id="arrowAnim">
+      <h1 style="color: red; padding-left: 40px">Go Back</h1>
 
       <div class="arrowSliding">
         <div class="arrow"></div>
@@ -212,10 +212,10 @@ export default {
       this.series[0].data.push({ x, y });
     });
     this.loaded = true;
-    this.high();
+    this.stats();
   },
   methods: {
-    high: function () {
+    stats: function () {
       var stockHigh = this.stock[0].high;
       var stockLow = this.stock[0].low;
       this.stock.forEach((day) => {

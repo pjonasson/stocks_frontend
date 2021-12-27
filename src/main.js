@@ -7,7 +7,8 @@ Vue.use(VueApexCharts);
 
 Vue.component("apexchart", VueApexCharts);
 
-axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "/";
+axios.defaults.baseURL =
+  process.env.NODE_ENV === "development" ? "http://localhost:3000" : "pacific-fjord-09245.herokuapp.com";
 
 Vue.config.productionTip = false;
 

@@ -45,7 +45,7 @@
                 data-bs-target="#exampleModal"
                 position="center"
                 v-on:click="logStock(stock)"
-                href="http://localhost:8080/stock_graph"
+                href="https://jolly-pasteur-0b7968.netlify.app/stock_graph"
               >
                 More Info
               </a>
@@ -101,7 +101,7 @@ export default {
   methods: {
     search: function () {
       var searchParam = this.searchStock.toLowerCase();
-      axios.get("http://localhost:3000/stocks/" + searchParam).then((response) => {
+      axios.get("https://pacific-fjord-09245.herokuapp.com/" + searchParam).then((response) => {
         this.inquiredStock = response.data;
         console.log("Search Results", this.inquiredStock);
         this.searchStock = "";
