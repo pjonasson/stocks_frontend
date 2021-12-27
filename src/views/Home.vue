@@ -101,7 +101,7 @@ export default {
   methods: {
     search: function () {
       var searchParam = this.searchStock.toLowerCase();
-      axios.get("https://pacific-fjord-09245.herokuapp.com/" + searchParam).then((response) => {
+      axios.get("https://pacific-fjord-09245.herokuapp.com/stocks" + searchParam).then((response) => {
         this.inquiredStock = response.data;
         console.log("Search Results", this.inquiredStock);
         this.searchStock = "";
